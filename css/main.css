@@ -1,0 +1,311 @@
+﻿
+/* 通用设置 */
+html, body {
+    margin: 5px;
+    padding: 0px;
+}
+
+/* 主界面 */
+.mainView {
+    width: 500px;
+    font-size: 14px;
+    font-family: Helvetica, Arial, sans-serif;
+    border: solid 5px blue;
+    padding: 0px 15px 8px 15px;
+    background-color: #eeeeee;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-left: 200px;
+}
+
+/* 标题 列表工具软件 */
+.mainView .mainTitle {
+    background-color: blue;
+    color: white;
+    height: 34px;
+    line-height: 34px;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: 0px;
+    margin-bottom: 6px;
+    padding-left: 10px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+}
+/* 路径显示框 */
+.mainView .pathShow {
+    padding: 2px 8px;
+    width: 480px;
+    background-color: #eff;
+    -webkit-box-shadow: 2px 2px 10px #888;
+    -moz-box-shadow: 2px 2px 10px #888;
+    box-shadow: 2px 2px 10px #888;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+/* 每个form框与legend的样式 */
+.mainView form {
+    margin-top: 8px;
+}
+.mainView form fieldset legend {
+    margin-left: 5px;
+    color: blue;
+    font-weight: bold;
+}
+
+/* 列表文件与格式校验 */
+.mainView form fieldset {
+    padding-left: 12px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/* 列表文件与格式校验  按钮 */
+/* 导入通用列表按钮 */
+.mainView .form1 .importBtn {
+    text-align: left;
+    margin-left: 8px;
+}
+.mainView .form1 .importBtn .btn {
+    width: 240px;
+    background-color: #eeeeee;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+/* 所有按钮的:hover样式 */
+.mainView .form2 ul .btn:hover,
+.mainView .form3 ul .btn:hover,
+.mainView .form4 ul .btn:hover,
+.mainView .form1 .importBtn .btn:hover{
+    background-color: #dddddd;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    -moz-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
+}
+
+/* 通用列表配置选择 */
+/* 一个标题和一个select元素构成一个 .module */
+.mainView .form1 .module {
+    display: inline-block;
+    text-align: left;
+    margin-left: 8px;
+}
+/* 标题元素p */
+.mainView .form1 .module p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+/* 下拉选项框元素select */
+.mainView .form1 .module select {
+    width: 140px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
+/* 名称列检查和导出 */
+/* 标题元素p */
+.mainView .form2 div p {
+    margin-top: 0px;
+    margin-bottom: 1px;
+}
+/* 下拉选项框元素select */
+.mainView .form2 select {
+    width: 120px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+/* module_base 基准列module */
+/* module_row 一行module */
+/* module 一个标题 + 一个下拉框 */
+.mainView .form2 .module_base, .module_row, .module {
+    padding-left: 3px;
+    text-align: left;
+}
+.mainView .form2 .module_base, .module {
+    margin-top: 2px;
+    margin-bottom: 0px;
+}
+.mainView .form2 .module_base {
+    display: block;
+}
+.mainView .form2 .module_row .module {
+    display: inline-block;
+}
+/* 输入框 */
+.mainView .form2 .module input {
+    width: 18px;
+    height: 15px;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+/* 按钮样式 */
+.mainView .form2 ul {
+    list-style: none;
+    text-align: right;
+    margin-top: -130px;
+    margin-bottom: 0px;
+}
+.mainView .form2 ul .btn {
+    margin-top: 5px;
+    background-color: #eee;
+    width: 95px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.mainView .form2 ul li:nth-last-child(2) {
+    margin-top: 15px;
+}
+
+
+/* 软件表格转换导出*/
+/* 标题 */
+.mainView .form3 p {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+/* 下拉框 */
+.mainView .form3 select {
+    width: 120px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.mainView .form3 .module_base fieldset {
+    text-align: center;
+    padding: 1px 6px 2px 1px;
+    margin-left: 5px;
+    font-size: 13px;
+}
+/* module_base 基准列行 */
+/* module_row 一行module */
+/* module 标题 + 下拉框 */
+.mainView .form3 .module, .module_base {
+    text-align: left;
+    display: inline-block;
+    margin-left: 3px;
+}
+.mainView .form3 .module_row {
+    display: block;
+    padding: 0px 3px 0px 3px;
+    margin-left: -7px;
+}
+.mainView .form3 .module_row .module {
+    margin-left: 5px;
+}
+/* 按钮样式 */
+.mainView .form3 ul {
+    list-style: none;
+    text-align: right;
+    margin-top: -100px;
+}
+.mainView .form3 ul .btn {
+    margin-top: 20px;
+    background-color: #eee;
+    width: 100px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+/* 扩展设置页面 */
+.mainView .form3 .extend {
+    float: left;
+    margin-left: 530px;
+    margin-top: -450px;
+    width: 530px;
+    border: solid 3px blue;
+    background-color: #eeeeee;
+    padding: 5px 0px 5px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    display: none;
+}
+.mainView .form3 .extend .title {
+    margin: -5px 0px 0px -5px;
+    padding: 5px;
+    background-color: blue;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+
+/* 列表导出 */
+/* 标题 */
+.mainView .form4 p {
+    margin-top: 0px;
+    margin-bottom: 1px;
+}
+/* 下拉框 */
+.mainView .form4 select {
+    width: 129px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+/* module_rew 一行module */
+/* module_firstCol 第一列module */
+/* module 标题 + 下拉框 */
+.mainView .form4 .module_row {
+    display: block;
+    padding: 0px;
+}
+.mainView .form4 .module_row ul, .module, .module_firstCol {
+    display: inline-block;
+    margin-top: 1px;
+}
+.mainView .form4 .module {
+    margin-left: 15px;
+}
+/* 按钮样式 */
+.mainView .form4 ul {
+    margin-left: 70px;
+    margin-bottom: 0px;
+    padding-bottom: 3px;
+}
+.mainView .form4 ul li {
+    list-style: none;
+    display: inline;
+    text-align: right;
+}
+.mainView .form4 ul li .btn {
+    width: 100px;
+    margin-left: 10px;
+    background-color: #eeeeee;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

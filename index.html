@@ -1,0 +1,535 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- 网页图标 -->
+    <link rel="icon" href="./img/excel.ico" type="image/x-icon">
+
+    <!-- 兼容360浏览器及搜狗等多内核浏览器显示异常的问题，指定运行当前页面的浏览器使用何种渲染引擎的声明 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+
+    <title>Prase Excel Files</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="./dest/js/jszip.js"></script>
+    <script type="text/javascript" src="./dest/js/xlsx.min.js"></script>
+    <script type="text/javascript" src="./dest/js/FileSaver.js"></script>
+    <script type="text/javascript" src="./dest/js/main.js"></script>
+</head>
+<body>
+<div class="mainView">
+    <p class="mainTitle">列表工具软件</p>
+    <input type="text" id="pathArea" class="pathShow" placeholder="">
+    <form class="form1" id="form1">
+        <fieldset>
+            <legend>列表文件与格式校验</legend>
+            <div class="importBtn">
+                <input type="button" class="btn" id="importNormalList" value="导入通用列表"/>
+                <input type="file" id="importNormalList2" style="display: none">
+            </div>
+            <div class="module">
+                <p>要处理的sheet表</p>
+                <select id="selectSheets">
+                    <option value="空">空</option>
+                </select>
+            </div>
+            <div class="module">
+                <p>标题行</p>
+                <select id="titleRow">
+                    <option value="0">1</option>
+                    <option value="1" selected="selected">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
+                    <option value="4">5</option>
+                    <option value="5">6</option>
+                    <option value="6">7</option>
+                    <option value="7">8</option>
+                </select>
+            </div>
+            <div class="module">
+                <p>有效数据起止行</p>
+                <select id="dataRow">
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                    <option value="2" selected="selected">3</option>
+                    <option value="3">4</option>
+                    <option value="4">5</option>
+                    <option value="5">6</option>
+                    <option value="6">7</option>
+                    <option value="7">8</option>
+                </select>
+            </div>
+        </fieldset>
+    </form>
+    <form class="form2" id="form2">
+        <fieldset>
+            <legend>名称列检查和导出</legend>
+            <div class="module_base">
+                <p class="selectTitle">基准列:</p>
+                <select id="checkStander" class="standerCol">
+                    <option value="空" selected="selected">空</option>
+                </select>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p class="selectTitle">英文全名列:</p>
+                    <select id="checkEnFullName">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p class="selectTitle">英文缩写列:</p>
+                    <select id="checkEnShortName">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p class="selectTitle">英文缩写长度:</p>
+                    <input type="text" id="enMinLength" class="txt" value="4">
+                    <label><=长度<=</label>
+                    <input type="text" id="enMaxLength" class="txt" value="8">
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p class="selectTitle">中文全名列:</p>
+                    <select id="checkCnFullName">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p class="selectTitle">中文缩写列:</p>
+                    <select id="checkCnShortName">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p class="selectTitle">中文缩写长度:</p>
+                    <input type="text" id="cnMinLength" class="txt" value="4">
+                    <label><=长度<=</label>
+                    <input type="text" id="cnMaxLength" class="txt" value="16">
+                </div>
+            </div>
+            <ul>
+                <li><input type="button" id="basicCheck" class="btn" value="基础检查"/></li>
+                <li><input type="button" id="seniorCheck" class="btn" value="高级检查"/></li>
+                <li><input type="button" id="checkNewEnTxt" class="btn" value="生成英文列表"/></li>
+                <li><input type="button" id="checkNewCnTxt" class="btn" value="生成中文列表"/></li>
+            </ul>
+        </fieldset>
+    </form>
+    <form class="form3" id="form3">
+        <fieldset>
+            <legend>软件表格转换导出</legend>
+            <div class="module_base">
+                <p class="selectTitle">基准列:</p>
+                <select id="convertStander" class="standerCol">
+                    <option value="空" selected="selected">空</option>
+                </select>
+            </div>
+            <div class="module_base">
+                <fieldset>
+                    <legend>表格输出格式设置</legend>
+                    <span><input id="dbRadio" type="radio" name="language" value="db" checked="checked"/>汇编DB</span>
+                    <span><input id="dwRadio" type="radio" name="language" value="dw"/>汇编DW</span>
+                    <span><input id="cRadio" type="radio" name="language" value="c"/>C语言</span>
+                </fieldset>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p class="selectTitle">参数列1：</p>
+                    <select id="paramCol1" class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p class="selectTitle">数据预处理配置1:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <ul>
+                <li><input type="button" id="convertNewTxt" class="btn" value="生成列表"/></li>
+                <li><input type="button" value="扩展设置" id="convertExpand" class="btn"/></li>
+            </ul>
+        </fieldset>
+        <div id="dialog2" class="extend">
+            <p class="title">软件表格转换导入扩展设置</p>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列2:</p>
+                    <select id="paramCol2" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置2:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列3:</p>
+                    <select id="paramCol3" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置3:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列4:</p>
+                    <select id="paramCol4" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置4:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列5:</p>
+                    <select id="paramCol5" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置5:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列6:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置6:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列7:</p>
+                    <select id="paramCol7" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置7:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列8:</p>
+                    <select id="paramCol8" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置8:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列9:</p>
+                    <select id="paramCol9" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置9:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列10:</p>
+                    <select class="appendTitles" class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置10:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列11:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置11:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列12:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置12:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列13:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置13:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列14:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置14:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列15:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置15:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module">
+                    <p>参数列16:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置16:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列17:</p>
+                    <select class="appendTitles">
+                        <option value="空">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>数据预处理配置17:</p>
+                    <select class="paramPreConfig">
+                        <option value="0">不处理</option>
+                        <option value="-1">参数列数据减1</option>
+                        <option value="1">参数列数据加1</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="form4" id="exportArea">
+        <fieldset>
+            <legend>列表导出</legend>
+            <div class="module_row">
+                <div class="module_firstCol">
+                    <p>基准列:</p>
+                    <select name="基准列" id="exportStander" class="standerCol">
+                        <option value="param0" selected="selected">空</option>
+                    </select>
+                </div>
+                <ul>
+                    <li><input type="button" id="exportNewList" class="btn" value="生成列表"/></li>
+                    <li><input type="button" id="exportGroupList" class="btn" value="分组统计"/></li>
+                </ul>
+            </div>
+
+            <div class="module_row">
+                <div class="module_firstCol">
+                    <p>参数列1:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列2:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列3:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module_firstCol">
+                    <p>参数列4:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列5:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列6:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+            </div>
+            <div class="module_row">
+                <div class="module_firstCol">
+                    <p>参数列7:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列8:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+                <div class="module">
+                    <p>参数列9:</p>
+                    <select class="appendTitles">
+                        <option value="空" selected="selected">空</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div id="Show"
+     style="float: left; border: solid 4px #ddd;width: 400px;margin-left:400px;padding-top: 8px; height:700px; background-color: #eee; z-index: 0;display: none">
+    <p style="margin-top: -10px;background-color: dodgerblue;color: white;font-weight: bold;font-size: 18px; margin-bottom: 0px; border-bottom: solid 4px #ddd;position: absolute;
+width: 388px;padding: 6px;">
+        导出文本预览</p>
+    <div style="width: 402px;height: 670px; overflow: auto;margin-top: 30px">
+        <table id="sheetjs">
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
